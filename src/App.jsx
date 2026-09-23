@@ -11,10 +11,10 @@ import { getCatalog, createOrder } from './services/api.js'
 const iconMap = { Smartphone, Shirt, Headphones, House, Sparkles, Dumbbell, Laptop, Grid2X2 }
 const money = (n) => new Intl.NumberFormat('fr-FR').format(n) + ' FCFA'
 
-function Brand() {
-  return <Link to="/" className="brand" aria-label="Digital Business Store">
+function Brand({ footer=false }) {
+  return <Link to="/" className={`brand ${footer ? 'brand-footer' : ''}`} aria-label="Digital Business Store">
     <span className="brand-logo-shell"><img src="/dbs-logo.webp" alt="Logo Digital Business Store"/></span>
-    <span className="brand-copy"><b>DIGITAL<br/>BUSINESS STORE</b><small>L’innovation au service<br/>de votre quotidien</small></span>
+    {!footer && <span className="brand-copy"><b>DIGITAL<br/>BUSINESS STORE</b><small>L’innovation au service<br/>de votre quotidien</small></span>}
   </Link>
 }
 
@@ -101,7 +101,7 @@ function FAQNewsletter() {
 }
 
 function Footer() {
-  return <footer id="footer"><div className="container footer-grid"><Brand/><div><b>Liens utiles</b><a href="#">Accueil</a><a href="#featured">Boutique</a><a href="#">À propos</a><a href="#">FAQ</a><a href="#">Contact</a></div><div><b>Catégories</b><a href="#featured">Électronique</a><a href="#featured">Mode & Accessoires</a><a href="#featured">Maison & Lifestyle</a><a href="#featured">Promotions</a><a href="#featured">Nouveautés</a></div><div><b>Service client</b><a href="#">Livraison</a><a href="#">Retours & échanges</a><a href="#">Suivi de commande</a><a href="#">Questions fréquentes</a><a href="#">Politique de confidentialité</a></div><div><b>Suivez-nous</b><div className="socials"><Facebook/><Instagram/><Youtube/></div></div></div><div className="container footer-bottom"><span>© 2026 Digital Business Store. Tous droits réservés.</span><span>Burkina Faso • Afrique • Monde</span></div></footer>
+  return <footer id="footer"><div className="container footer-grid"><Brand footer/><div><b>Liens utiles</b><a href="#">Accueil</a><a href="#featured">Boutique</a><a href="#">À propos</a><a href="#">FAQ</a><a href="#">Contact</a></div><div><b>Catégories</b><a href="#featured">Électronique</a><a href="#featured">Mode & Accessoires</a><a href="#featured">Maison & Lifestyle</a><a href="#featured">Promotions</a><a href="#featured">Nouveautés</a></div><div><b>Service client</b><a href="#">Livraison</a><a href="#">Retours & échanges</a><a href="#">Suivi de commande</a><a href="#">Questions fréquentes</a><a href="#">Politique de confidentialité</a></div><div><b>Suivez-nous</b><div className="socials"><Facebook/><Instagram/><Youtube/></div></div></div><div className="container footer-bottom"><span>© 2026 Digital Business Store. Tous droits réservés.</span><span>Burkina Faso • Afrique • Monde</span></div></footer>
 }
 
 function Home({ catalog, onAdd }) {
