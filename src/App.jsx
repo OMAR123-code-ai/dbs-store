@@ -13,7 +13,7 @@ const money = (n) => new Intl.NumberFormat('fr-FR').format(n) + ' FCFA'
 
 function Brand() {
   return <Link to="/" className="brand" aria-label="Digital Business Store">
-    <span className="brand-mark"><span>DBS</span></span>
+    <span className="brand-logo-shell"><img src="/dbs-logo.webp" alt="Logo Digital Business Store"/></span>
     <span className="brand-copy"><b>DIGITAL<br/>BUSINESS STORE</b><small>L’innovation au service<br/>de votre quotidien</small></span>
   </Link>
 }
@@ -29,7 +29,7 @@ function Header({ cartCount, onCart }) {
       <div className="searchbox"><input placeholder="Rechercher un produit, une marque, une catégorie..."/><button><Search size={20}/></button></div>
       <div className="header-actions">
         <button><UserRound/><span>Compte</span></button>
-        <button><MessageCircle/><span>Contact</span></button>
+        <a className="header-link" href="https://wa.me/22673190710" target="_blank" rel="noreferrer"><MessageCircle/><span>Contact</span></a>
         <button className="cart-action" onClick={onCart}><ShoppingCart/><span>Panier</span>{cartCount > 0 && <em>{cartCount}</em>}</button>
       </div>
     </div></header>
@@ -125,6 +125,15 @@ function CartDrawer({ items, open, onClose, onQty, onRemove, onCheckout }) {
   return <><div className={`overlay ${open?'show':''}`} onClick={onClose}/><aside className={`cart-drawer ${open?'open':''}`}><div className="drawer-head"><h3>Votre panier ({items.reduce((s,i)=>s+i.qty,0)})</h3><button onClick={onClose}><X/></button></div><div className="cart-items">{items.length===0?<div className="empty"><ShoppingCart size={48}/><p>Votre panier est vide</p></div>:items.map(i=><div className="cart-line" key={i.id}><img src={i.image} alt={i.name}/><div><b>{i.name}</b><span>{money(i.price)}</span><div className="line-qty"><button onClick={()=>onQty(i.id,-1)}><Minus/></button><em>{i.qty}</em><button onClick={()=>onQty(i.id,1)}><Plus/></button></div></div><button className="trash" onClick={()=>onRemove(i.id)}><Trash2/></button></div>)}</div>{items.length>0&&<div className="cart-summary"><div><span>Sous-total</span><b>{money(subtotal)}</b></div><div><span>Livraison</span><b>{money(delivery)}</b></div><div className="total"><span>Total</span><strong>{money(subtotal+delivery)}</strong></div><button onClick={onCheckout}>Passer au paiement</button></div>}</aside></>
 }
 
+function MobileDock({ cartCount, onCart }) {
+  return <nav className="mobile-dock" aria-label="Navigation mobile">
+    <Link to="/"><House/><span>Accueil</span></Link>
+    <a href="#featured"><Grid2X2/><span>Boutique</span></a>
+    <button onClick={onCart}><ShoppingCart/><span>Panier</span>{cartCount > 0 && <em>{cartCount}</em>}</button>
+    <a href="https://wa.me/22673190710" target="_blank" rel="noreferrer"><MessageCircle/><span>WhatsApp</span></a>
+  </nav>
+}
+
 function Checkout({ items, onClose, onDone }) {
   const [method,setMethod]=useState('orange'); const [busy,setBusy]=useState(false)
   const total=items.reduce((s,i)=>s+i.price*i.qty,0)+5000
@@ -142,5 +151,5 @@ export default function App() {
   function qty(id,d){setCart(c=>c.map(i=>i.id===id?{...i,qty:Math.max(1,i.qty+d)}:i))}
   function remove(id){setCart(c=>c.filter(i=>i.id!==id))}
   function done(r){setCheckout(false);setCart([]);setNotice(`Commande ${r.orderId} enregistrée avec succès`);setTimeout(()=>setNotice(''),5000)}
-  return <div className="app"><Header cartCount={count} onCart={()=>setCartOpen(true)}/><Routes><Route path="/" element={<Home catalog={catalog} onAdd={add}/>}/><Route path="/product/:slug" element={<ProductPage catalog={catalog} onAdd={add}/>}/></Routes><Footer/><a className="whatsapp" href="https://wa.me/22673190710" target="_blank" rel="noreferrer" aria-label="Contacter DBS sur WhatsApp"><MessageCircle/> WhatsApp</a><CartDrawer items={cart} open={cartOpen} onClose={()=>setCartOpen(false)} onQty={qty} onRemove={remove} onCheckout={()=>{setCartOpen(false);setCheckout(true)}}/>{checkout&&<Checkout items={cart} onClose={()=>setCheckout(false)} onDone={done}/>} {notice&&<div className="toast"><CheckCircle2/>{notice}</div>}</div>
+  return <div className="app"><Header cartCount={count} onCart={()=>setCartOpen(true)}/><Routes><Route path="/" element={<Home catalog={catalog} onAdd={add}/>}/><Route path="/product/:slug" element={<ProductPage catalog={catalog} onAdd={add}/>}/></Routes><Footer/><MobileDock cartCount={count} onCart={()=>setCartOpen(true)}/><a className="whatsapp" href="https://wa.me/22673190710" target="_blank" rel="noreferrer" aria-label="Contacter DBS sur WhatsApp"><MessageCircle/> WhatsApp</a><CartDrawer items={cart} open={cartOpen} onClose={()=>setCartOpen(false)} onQty={qty} onRemove={remove} onCheckout={()=>{setCartOpen(false);setCheckout(true)}}/>{checkout&&<Checkout items={cart} onClose={()=>setCheckout(false)} onDone={done}/>} {notice&&<div className="toast"><CheckCircle2/>{notice}</div>}</div>
 }
