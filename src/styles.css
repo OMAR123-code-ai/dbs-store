@@ -79,3 +79,11 @@ footer{padding-top:38px}.footer-grid .brand-logo-shell{width:66px;height:66px}.f
   .brand-copy{display:none}.brand{flex:1}.hero{height:222px}.hero-content{width:72%;left:18px;top:31px}.hero h1{font-size:22px}.hero-products{width:75%}
   .product-image{height:142px}.add-btn{font-size:8.5px}.category-card{min-width:76px}.main-photo{height:300px}
 }
+
+/* ===== Logo refinement ===== */
+.brand-logo-shell{position:relative;background:#020202;overflow:hidden}
+.brand-logo-shell img{width:138%;height:138%;max-width:none;object-fit:cover;object-position:center 22%;transform:translateY(-1%);display:block}
+.brand-footer{min-width:0}.brand-footer .brand-logo-shell{width:132px;height:132px;border-radius:22px}
+.brand-footer .brand-logo-shell img{width:100%;height:100%;object-fit:contain;object-position:center;transform:none}
+@media(max-width:900px){.brand-footer .brand-logo-shell{width:112px;height:112px}}
+@media(max-width:720px){.brand-footer .brand-logo-shell{width:92px;height:92px}.brand-logo-shell img{width:142%;height:142%;object-position:center 21%}}
